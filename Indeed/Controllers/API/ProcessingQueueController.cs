@@ -1,43 +1,56 @@
-﻿using Core.Interfaces;
+﻿using Core.ConcreteClases;
+using Core.Interfaces;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
+using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
+using RouteAttribute = System.Web.Http.RouteAttribute;
 
 namespace Indeed.Controllers.API
 {
+   
     public class ProcessingQueueController : ApiController
     {
-        private ITaskProcessingService taskProcServise;
+        private ITaskProcessingService taskProcServise = ProcessingQueueService.Instance;
 
-        [System.Web.Http.HttpPost]
-        public ActionResult AddNewTask(IProcessingTask task)
+        [HttpGet]
+        public ActionResult AddNewTask()
         {
+            var task = new ProcessingTask();
             try
             {
                 taskProcServise.AddTaskToQueue(task);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
                return new HttpStatusCodeResult(500, "Error adding message to queue");
+                // log exception here
             }
 
-            return new HttpStatusCodeResult(200);
+            return new HttpStatusCodeResult(200, task.TaskId);
         }
 
-        public ActionResult GetTaskStatus(string taskId)
+        [HttpGet]
+        public string GetTaskStatus(string taskId)
         {
             var task = GetTaskByTaskId(taskId);
-            return new JsonResult { Data = task.CurrentStatus };
+            return task.CurrentStatus.ToString();
         }
 
+        [HttpGet]
         public ActionResult CancelTask(string taskId)
         {
             var task = GetTaskByTaskId(taskId);
-            task.CurrentStatus = Core.ProcessingTaskStatus.Canceled;
-            return new JsonResult { Data = task };
+            if (task.Cancel())
+            {
+                return new HttpStatusCodeResult(200, task.TaskId + " Canceled");
+            }
+
+            return new HttpStatusCodeResult(204, task.TaskId + " Unable to cancel");
         }
 
-        private IProcessingTask GetTaskByTaskId(string taskId)
+        [HttpGet]
+        public IProcessingTask GetTaskByTaskId(string taskId)
         {
             return taskProcServise.ProcessingQueue.GetTasksInQueue()
                 .SingleOrDefault(t => t.TaskId.ToString() == taskId);

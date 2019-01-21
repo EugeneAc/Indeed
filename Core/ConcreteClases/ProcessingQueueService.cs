@@ -10,6 +10,11 @@ namespace Core.ConcreteClases
 {
     public class ProcessingQueueService : ITaskProcessingService
     {
+        private static readonly Lazy<ProcessingQueueService> lazy =
+        new Lazy<ProcessingQueueService>(() => new ProcessingQueueService());
+
+        public static ITaskProcessingService Instance { get { return lazy.Value; } }
+
         public ProcessingQueueService()
         {
             Operators = new List<AbstractEmployee> { new Operator() };

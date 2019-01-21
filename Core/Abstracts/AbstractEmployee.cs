@@ -28,7 +28,7 @@ namespace Core.Abstracts
         {
             _currentTask = task;
             task.CurrentStatus = ProcessingTaskStatus.WorkInProcess;
-            WorkOnTask();
+            WorkOnTask(task);
         }
 
         public virtual EmployeeStatus GetCurrentStatus()
@@ -36,15 +36,23 @@ namespace Core.Abstracts
             return _currentTask != null ? EmployeeStatus.Working : EmployeeStatus.Free;
         }
 
-        protected virtual async void WorkOnTask()
+        protected virtual async void WorkOnTask(IProcessingTask task)
         {
+            var cancelationToken = new CancellationTokenSource();
+            task.TaskCanceledEvent += (o, e) => 
+            {
+                cancelationToken.Cancel();
+            };
             await Task.Factory.StartNew(() =>
             {
                 Console.WriteLine(Title + " Works On Task " + _currentTask.TaskId);
                 Thread.Sleep(_processingTime);
                 Console.WriteLine(Title + " Finished working On Task " + _currentTask.TaskId);
+                task.ProcessedTime = _processingTime;
+                task.ProcessedBy = Title;
+                task.CurrentStatus = ProcessingTaskStatus.Completed;
                 _currentTask = null;
-            });
+            }, cancelationToken.Token);
         }
     }
 }

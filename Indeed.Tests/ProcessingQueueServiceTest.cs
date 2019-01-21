@@ -9,7 +9,7 @@ namespace Indeed.Tests
     [TestClass]
     public class ProcessingQueueServiceTest
     {
-        ITaskProcessingService _service = new ProcessingQueueService();
+        ITaskProcessingService _service = ProcessingQueueService.Instance;
 
         [TestMethod]
         public void StartService()

@@ -6,8 +6,9 @@ namespace Indeed
     {
         public static void Register(HttpConfiguration configuration)
         {
-            configuration.Routes.MapHttpRoute("API Default", "api/{controller}/{id}",
-                new { id = RouteParameter.Optional });
+            configuration.MapHttpAttributeRoutes();
+
+            configuration.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{action}/{id}", new { id = RouteParameter.Optional });
         }
     }
 }

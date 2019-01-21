@@ -13,7 +13,6 @@ namespace Indeed.Controllers
 
         public ActionResult Index()
         {
-            taskProcServise.ProcessingQueue.GetTasksInQueue();
             return View();
         }
 
