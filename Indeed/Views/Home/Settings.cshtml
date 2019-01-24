@@ -1,0 +1,43 @@
+﻿@using Indeed.Models
+
+@model SettingsModel
+
+@{
+    ViewBag.Title = "Settings";
+}
+
+<br />
+<input type="text" id="TmInput" value="@Model.Tm" pattern="\d+"/>
+<input type="button" id="TmBtn" value="Set" data-root="@Url.Content("~/")" data-ident="Tm" />
+<br />
+
+<br />
+<input type="text" id="TdInput" value="@Model.Td" pattern="\d+"/>
+<input type="button" id="TdBtn" value="Set" data-root="@Url.Content("~/")" data-ident="Td" />
+<br />
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#TmBtn').click(function () {
+                SetBtnValue(this);
+            });
+
+            function SetBtnValue(btn) {
+                var thisBtn = $(btn);
+                var root = thisBtn.data('root');
+                var ident = thisBtn.data('ident');
+                location.href = root + "Home/Set" + ident + "?" + ident + "=" + $("#" + ident + "Input").val();
+            };
+        });
+
+        $('input').blur(function (evt) {
+            evt.target.checkValidity();
+        }).bind('invalid', function (event) {
+            alert('Invalid input');
+        });
+    </script>
+}
+
+
+

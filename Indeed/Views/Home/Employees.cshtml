@@ -1,0 +1,22 @@
+﻿@using Core.Abstracts;
+
+@model IEnumerable<AbstractEmployee>
+
+@{
+    ViewBag.Title = "Employees";
+}
+
+<div class="row">
+    @if (Model != null)
+    {
+        foreach (var employee in Model)
+        {
+            <div class="card col-sm-3">
+                <div class="card-body">
+                    <h5 class="card-title">@employee.Title</h5>
+                    <p class="card-text">Current status: @employee.CurrentStatus</p>
+                </div>
+            </div>
+        }
+    }
+</div>

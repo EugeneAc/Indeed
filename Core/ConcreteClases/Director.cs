@@ -7,8 +7,10 @@ namespace Core.ConcreteClases
     {
         public Director(string title = "Director") : base(title)
         {
+            _processingTimeMin = 0;
+            _processingTimeMax = 1000;
             Random rnd = new Random();
-            this._processingTime += rnd.Next(_processingTime, _processingTime);
+            this._processingTimeMin += rnd.Next(_processingTimeMin, _processingTimeMax);
         }
     }
 }

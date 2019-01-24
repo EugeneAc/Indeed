@@ -7,8 +7,9 @@ namespace Core.ConcreteClases
     {
         public Operator(string title = "Operator") : base(title)
         {
+            _processingTimeMax = 3000;
             Random rnd = new Random();
-            this._processingTime += rnd.Next(_processingTime, _processingTime * 3);
+            this._processingTimeMin += rnd.Next(_processingTimeMin, _processingTimeMax);
         }
     }
 }

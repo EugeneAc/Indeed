@@ -1,4 +1,7 @@
-﻿using Core.Interfaces;
+﻿using Core.Abstracts;
+using Core.ConcreteClases;
+using Core.Interfaces;
+using Indeed.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,39 +12,45 @@ namespace Indeed.Controllers
 {
     public class HomeController : Controller
     {
-        private ITaskProcessingService taskProcServise;
+        private ITaskProcessingService taskProcServise = ProcessingQueueService.Instance;
 
         public ActionResult Index()
         {
-            return View();
+            var model = taskProcServise.ProcessingQueue.GetTasksInQueue();
+            return View(model);
         }
 
-        [HttpPost]
-        public int SetTm(int tm)
+        public ActionResult SetTm(int tm)
         {
             taskProcServise.Tm_milliseconds = tm;
-            return taskProcServise.Tm_milliseconds;
+            return new RedirectResult("Settings");
         }
 
-        [HttpPost]
-        public int SetTd(int td)
+        public ActionResult SetTd(int td)
         {
             taskProcServise.Td_milliseconds = td;
-            return taskProcServise.Td_milliseconds;
+            return new RedirectResult("Settings");
         }
 
-        public ActionResult About()
+        public ActionResult Employees()
         {
-            ViewBag.Message = "Your application description page.";
+            var model = new List<AbstractEmployee>();
+            model.AddRange(taskProcServise.Operators);
+            model.AddRange(taskProcServise.Managers);
+            model.AddRange(taskProcServise.Directors);
 
-            return View();
+            return View(model);
         }
 
-        public ActionResult Contact()
+        public ActionResult Settings()
         {
-            ViewBag.Message = "Your contact page.";
+            var model = new SettingsModel()
+            {
+                Tm = taskProcServise.Tm_milliseconds,
+                Td = taskProcServise.Td_milliseconds
+            };
 
-            return View();
+            return View(model);
         }
     }
 }

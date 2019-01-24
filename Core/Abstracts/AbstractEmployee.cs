@@ -8,7 +8,8 @@ namespace Core.Abstracts
     public abstract class AbstractEmployee
     {
         protected IProcessingTask _currentTask;
-        protected int _processingTime = 1000;
+        protected int _processingTimeMin = 1000;
+        protected int _processingTimeMax = 5000;
         public readonly string Title;
 
         protected AbstractEmployee(string title)
@@ -22,6 +23,16 @@ namespace Core.Abstracts
             {
                 return GetCurrentStatus();
             }
+        }
+
+        public void SetProcessingTimeMin(int time)
+        {
+            this._processingTimeMin = time;
+        }
+
+        public void SetProcessingTimeMax(int time)
+        {
+            this._processingTimeMax = time;
         }
 
         public virtual void AssignTask(IProcessingTask task)
@@ -46,9 +57,9 @@ namespace Core.Abstracts
             await Task.Factory.StartNew(() =>
             {
                 Console.WriteLine(Title + " Works On Task " + _currentTask.TaskId);
-                Thread.Sleep(_processingTime);
+                Thread.Sleep(_processingTimeMin);
                 Console.WriteLine(Title + " Finished working On Task " + _currentTask.TaskId);
-                task.ProcessedTime = _processingTime;
+                task.ProcessedTime = _processingTimeMin;
                 task.ProcessedBy = Title;
                 task.CurrentStatus = ProcessingTaskStatus.Completed;
                 _currentTask = null;

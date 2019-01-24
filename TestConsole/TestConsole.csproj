@@ -48,12 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Indeed.Tests\Indeed.Tests.csproj">
-      <Project>{d367c0cc-c013-47a3-8ad1-e2a3d7d2b3be}</Project>
-      <Name>Indeed.Tests</Name>
-    </ProjectReference>
+    <None Include="stratTestConsole.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

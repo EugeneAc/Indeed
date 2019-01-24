@@ -1,0 +1,1 @@
+bin\debug\TestConsole.exe 1000 10000 10

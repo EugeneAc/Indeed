@@ -7,8 +7,9 @@ namespace Core.ConcreteClases
     {
         public Manager(string title = "Manager") : base(title)
         {
+            _processingTimeMax = 2000;
             Random rnd = new Random();
-            this._processingTime += rnd.Next(_processingTime, _processingTime * 2);
+            this._processingTimeMin += rnd.Next(_processingTimeMin, _processingTimeMax);
         }
     }
 }
