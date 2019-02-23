@@ -11,7 +11,12 @@ namespace Indeed.Controllers.API
    
     public class ProcessingQueueController : ApiController
     {
-        private ITaskProcessingService taskProcServise = ProcessingQueueService.Instance;
+        private ITaskProcessingService taskProcServise;
+
+        public ProcessingQueueController(ITaskProcessingService taskProcServise)
+        {
+            this.taskProcServise = taskProcServise;
+        }
 
         [HttpGet]
         public ActionResult AddNewTask()
@@ -52,7 +57,7 @@ namespace Indeed.Controllers.API
         [HttpGet]
         public IProcessingTask GetTaskByTaskId(string taskId)
         {
-            return taskProcServise.ProcessingQueue.GetTasksInQueue()
+            return taskProcServise.ProcessingQueue.GetAllTasksInQueue()
                 .SingleOrDefault(t => t.TaskId.ToString() == taskId);
         }
     }

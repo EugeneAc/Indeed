@@ -91,7 +91,6 @@
   <ItemGroup>
     <Compile Include="ProcessingQueueServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -100,13 +99,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{e461d51b-f454-4a96-902d-6f4e204077b1}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Indeed\Indeed.csproj">
+    <ProjectReference Include="..\Indeed\QeueProcessingWeb.csproj">
       <Project>{874CEB88-AABF-403B-B523-FC6FB13E6741}</Project>
-      <Name>Indeed</Name>
+      <Name>QeueProcessingWeb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QueueCore\Core.csproj">
+      <Project>{8cbc72ac-f093-46fa-a7eb-307291081a4a}</Project>
+      <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

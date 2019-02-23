@@ -12,11 +12,16 @@ namespace Indeed.Controllers
 {
     public class HomeController : Controller
     {
-        private ITaskProcessingService taskProcServise = ProcessingQueueService.Instance;
+        private ITaskProcessingService taskProcServise;
+
+        public HomeController(ITaskProcessingService taskProcServise)
+        {
+            this.taskProcServise = taskProcServise;
+        }
 
         public ActionResult Index()
         {
-            var model = taskProcServise.ProcessingQueue.GetTasksInQueue();
+            var model = taskProcServise.ProcessingQueue.GetAllTasksInQueue();
             return View(model);
         }
 

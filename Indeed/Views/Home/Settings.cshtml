@@ -5,21 +5,26 @@
 @{
     ViewBag.Title = "Settings";
 }
-
-<br />
+<h5>
+    Tm
+</h5>
 <input type="text" id="TmInput" value="@Model.Tm" pattern="\d+"/>
 <input type="button" id="TmBtn" value="Set" data-root="@Url.Content("~/")" data-ident="Tm" />
 <br />
-
 <br />
+
+<h5>
+    Td
+</h5>
 <input type="text" id="TdInput" value="@Model.Td" pattern="\d+"/>
 <input type="button" id="TdBtn" value="Set" data-root="@Url.Content("~/")" data-ident="Td" />
+<br />
 <br />
 
 @section scripts {
     <script>
         $(document).ready(function () {
-            $('#TmBtn').click(function () {
+            $(':button').click(function () {
                 SetBtnValue(this);
             });
 

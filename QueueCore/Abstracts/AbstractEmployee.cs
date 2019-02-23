@@ -1,7 +1,5 @@
 ﻿using Core.Interfaces;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Core.Abstracts
 {
@@ -49,22 +47,13 @@ namespace Core.Abstracts
 
         protected virtual async void WorkOnTask(IProcessingTask task)
         {
-            var cancelationToken = new CancellationTokenSource();
-            task.TaskCanceledEvent += (o, e) => 
-            {
-                cancelationToken.Cancel();
-            };
-            HostingEnvironment.QueueBackgroundWorkItem(ct => SendMailAsync(user.Email));
-            await Task.Factory.StartNew(() =>
-            {
-                Console.WriteLine(Title + " Works On Task " + _currentTask.TaskId);
-                Thread.Sleep(_processingTimeMin);
-                Console.WriteLine(Title + " Finished working On Task " + _currentTask.TaskId);
-                task.ProcessedTime = _processingTimeMin;
-                task.ProcessedBy = Title;
-                task.CurrentStatus = ProcessingTaskStatus.Completed;
-                _currentTask = null;
-            }, cancelationToken.Token);
+            Console.WriteLine(Title + " Works On Task " + _currentTask.TaskId);
+            await BusinessLogic.TaskResolver.CompleteTask(task, _processingTimeMin);
+            Console.WriteLine(Title + " Finished working On Task " + _currentTask.TaskId);
+            task.ProcessedTime = _processingTimeMin;
+            task.ProcessedBy = Title;
+            task.CurrentStatus = ProcessingTaskStatus.Completed;
+            _currentTask = null;
         }
     }
 }

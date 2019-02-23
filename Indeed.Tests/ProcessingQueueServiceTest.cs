@@ -9,22 +9,23 @@ namespace Indeed.Tests
     [TestClass]
     public class ProcessingQueueServiceTest
     {
-        ITaskProcessingService _service = ProcessingQueueService.Instance;
-
         [TestMethod]
         public void StartService()
         {
-            _service.StartService();
-            Assert.IsTrue(_service.ServiceTask.Status == TaskStatus.Running || _service.ServiceTask.Status == TaskStatus.WaitingToRun);
+            var service = new ProcessingQueueService(new ProcessingQueue());
+
+            Assert.IsTrue(service.ServiceTask.Status == TaskStatus.Running || service.ServiceTask.Status == TaskStatus.WaitingToRun);
         }
 
         [TestMethod]
         public void AddTask()
         {
-             _service.StartService();
+            var service = new ProcessingQueueService(new ProcessingQueue());
             var task = new ProcessingTask();
-            _service.ProcessingQueue.AddTask(task);
-            Assert.IsTrue(_service.ProcessingQueue.GetTasksInQueue().Contains(task));
+
+            service.ProcessingQueue.AddTask(task);
+
+            Assert.IsTrue(service.ProcessingQueue.GetAllTasksInQueue().Contains(task));
         }
     }
 }

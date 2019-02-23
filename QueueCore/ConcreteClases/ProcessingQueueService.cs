@@ -46,7 +46,7 @@ namespace Core.ConcreteClases
             }
         }
 
-        public void StartService()
+        private void StartService()
         {
             if (this.ServiceTask == null)
             {
@@ -56,7 +56,7 @@ namespace Core.ConcreteClases
                     while (true)
                     {
                         CheckQeue();
-                        Thread.Sleep(100);
+                        Thread.Sleep(1000);
                     }
                 });
             }
